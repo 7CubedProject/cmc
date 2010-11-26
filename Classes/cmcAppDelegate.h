@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+// Controllers
+#import "TapViewController.h"
+
 @interface cmcAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
+  TapViewController *tapController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

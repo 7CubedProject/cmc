@@ -19,10 +19,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
+  tapController = [[TapViewController alloc] init];
+  [self.window addSubview:tapController.view];
+  [self.window makeKeyAndVisible];
     
-    [self.window makeKeyAndVisible];
-    
-    return YES;
+  return YES;
 }
 
 
