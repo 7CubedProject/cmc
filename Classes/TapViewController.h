@@ -25,7 +25,7 @@
 @property (nonatomic, retain) NSString *peer;
 
 // Touch Management Encoding Views
-
+- (NSArray *)encodeTouches:(NSSet *)touches;
 // Session Methods
 - (void)invalidateSession:(GKSession *)session;
 - (void)sendButtonTap:(NSInteger)row column:(NSInteger)column;

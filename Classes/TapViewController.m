@@ -149,12 +149,13 @@
   NSArray *touchArray = [touches allObjects];
   NSMutableArray *pointArray = [[NSMutableArray alloc] initWithCapacity:[touchArray count]];
   for (UITouch *touch in touchArray) {
+    NSLog(@"Encoding touch");
     NSDictionary *pointData = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"currentPoint",
                                [NSValue valueWithCGPoint:[touch locationInView:self.view]],
-                          @"previousPoint",
+                               @"currentPoint",
                                [NSValue valueWithCGPoint:[touch previousLocationInView:self.view]],
-                          nil];
+                               @"previousPoint",
+                               nil];
     [pointArray addObject:pointData];
     [pointData release];
   }
@@ -178,7 +179,10 @@
   id touchArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
   if ([touchArray isKindOfClass:[NSArray class]]) {
-    NSLog(@"Pass touches to be drawn");
+    NSLog(@"Recieved Array");
+    [(DrawingView *)self.view drawPoints:touchArray]; 
+  } else {
+    NSLog(@"Recieved something else");
   }
 
 }
