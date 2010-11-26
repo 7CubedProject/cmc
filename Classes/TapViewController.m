@@ -24,13 +24,16 @@
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:
                       [[NSBundle mainBundle] pathForResource:@"beep_2" ofType:@"aifc"]];
 
-    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    _soundData = [NSData dataWithContentsOfURL:fileURL];
+
+    _player = [[AVAudioPlayer alloc] initWithData:_soundData error:nil];
   }
   return self;
 }
 
 - (void)dealloc {
   [_player release]; _player = nil;
+  [_soundData release]; _soundData = nil;
 
   [super dealloc];
 }

@@ -17,6 +17,8 @@
   GKPeerPickerController *_peerPicker;
   NSString *_peer;
 
+  NSData* _soundData;
+
   // Audio
   AVAudioPlayer* _player;
 
