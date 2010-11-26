@@ -22,7 +22,7 @@
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:
-                      [[NSBundle mainBundle] pathForResource:@"beep_2" ofType:@"aifc"]];
+                      [[NSBundle mainBundle] pathForResource:@"SuperMarioBrothers-Coin" ofType:@"mp3"]];
 
     _soundData = [NSData dataWithContentsOfURL:fileURL];
     _audioFactory = [[AudioFactory alloc] initWithData:_soundData];

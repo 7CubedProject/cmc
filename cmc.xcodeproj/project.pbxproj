@@ -17,6 +17,7 @@
 		6686C66C12A030A30008D415 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6686C66B12A030A30008D415 /* AVFoundation.framework */; };
 		6686C67012A030B60008D415 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6686C66F12A030B60008D415 /* AudioToolbox.framework */; };
 		6686C6ED12A03DB90008D415 /* AudioFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6686C6EC12A03DB90008D415 /* AudioFactory.m */; };
+		6686C98412A062750008D415 /* SuperMarioBrothers-Coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6686C98312A062750008D415 /* SuperMarioBrothers-Coin.mp3 */; };
 		FD9BD0B412A02B3700A28A33 /* TapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9BD0B312A02B3700A28A33 /* TapViewController.m */; };
 		FD9BD11912A02E0C00A28A33 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD9BD11812A02E0C00A28A33 /* GameKit.framework */; };
 /* End PBXBuildFile section */
@@ -36,6 +37,7 @@
 		6686C66F12A030B60008D415 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6686C6EB12A03DB90008D415 /* AudioFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioFactory.h; sourceTree = "<group>"; };
 		6686C6EC12A03DB90008D415 /* AudioFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioFactory.m; sourceTree = "<group>"; };
+		6686C98312A062750008D415 /* SuperMarioBrothers-Coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "SuperMarioBrothers-Coin.mp3"; path = "Resources/SuperMarioBrothers-Coin.mp3"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* cmc-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "cmc-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		FD9BD0B212A02B3700A28A33 /* TapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapViewController.h; sourceTree = "<group>"; };
 		FD9BD0B312A02B3700A28A33 /* TapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapViewController.m; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6686C98312A062750008D415 /* SuperMarioBrothers-Coin.mp3 */,
 				6686C66912A02FEF0008D415 /* beep_2.aifc */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* cmc-Info.plist */,
@@ -175,6 +178,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				6686C66A12A02FEF0008D415 /* beep_2.aifc in Resources */,
+				6686C98412A062750008D415 /* SuperMarioBrothers-Coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
