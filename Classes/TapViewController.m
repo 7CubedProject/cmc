@@ -99,7 +99,13 @@
 - (void)tapButton:(UIButton*)button {
   NSInteger row = UNPACK_ROW(button.tag);
   NSInteger col = UNPACK_COL(button.tag);
+  
+  [self sendButtonTap:row column:col];
 
+  [self playMusic]; 
+}
+
+- (void)playMusic {
   [_player play];
 }
 
@@ -150,6 +156,47 @@
   }
 }
 
+#pragma mark -
+#pragma mark GKSession Data Methods
+
+- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession:(GKSession *)session context:(void *)context {
+  NSError *error;
+  id buttonPosition = [NSPropertyListSerialization dataWithPropertyList:data format:NSPropertyListImmutable options:0 error:&error];
+  
+  if ([buttonPosition isKindOfClass:[NSArray class]]) {
+    NSInteger row = [[(NSArray *)buttonPosition objectAtIndex:0] intValue];
+    NSInteger column = [[(NSArray *)buttonPosition objectAtIndex:1] intValue];
+    
+    UIButton *button = [[_buttons objectAtIndex:column] objectAtIndex:row];
+    
+    [button setSelected:YES];
+    [self playMusic];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.2f];
+    [button setSelected:NO];
+    [UIView commitAnimations];
+  }
+  
+  if (error) {
+    NSLog(@"SAD FACE ON RECIEVING DATA");
+    NSLog(@"Error: %@", error);
+  }
+}
+
+- (void)sendButtonTap:(NSInteger)row column:(NSInteger)column {
+  
+  NSArray *array = [NSArray arrayWithObjects:[NSNumber numberWithInt:row],[NSNumber numberWithInt:column],nil];
+  NSData *buttonData = [NSKeyedArchiver archivedDataWithRootObject:array];
+  
+  NSError *error;
+  [self.session sendDataToAllPeers:buttonData withDataMode:GKSendDataReliable error:&error];
+  
+  if (error) {
+    NSLog(@"SAD FACE ON SENDING DATA");
+    NSLog(@"Error: %@", error);
+  }
+}
+ 
 #pragma mark -
 #pragma mark Memory management
 
