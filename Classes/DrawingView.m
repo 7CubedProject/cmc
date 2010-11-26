@@ -54,10 +54,10 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
   if (self = [super initWithFrame:frame]) {
     _bmp = MyCreateBitmapContext(frame.size.width, frame.size.height);
 
-    _brushColor = [UIColor colorWithRed:(double)(rand()%100+100)/255.0
-                                  green:(double)(rand()%100+100)/255.0
-                                   blue:(double)(rand()%100+100)/255.0
-                                  alpha:1];
+    _brushColor = [[UIColor colorWithRed:(double)(rand()%100+100)/255.0
+                                   green:(double)(rand()%100+100)/255.0
+                                    blue:(double)(rand()%100+100)/255.0
+                                   alpha:1] retain];
 
     _image = CGBitmapContextCreateImage(_bmp);
   }
