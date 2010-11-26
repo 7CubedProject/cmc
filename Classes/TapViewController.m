@@ -182,7 +182,6 @@
   id touchArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
   if ([touchArray isKindOfClass:[NSArray class]]) {
-    NSLog(@"Recieved Array");
     [(DrawingView *)self.view drawPoints:touchArray color:_peerColor];
   } else {
     NSLog(@"Recieved something else");
