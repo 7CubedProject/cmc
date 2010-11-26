@@ -20,21 +20,61 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-    
+
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:
+                      [[NSBundle mainBundle] pathForResource:@"beep_2" ofType:@"aifc"]];
+
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
   }
   return self;
+}
+
+- (void)dealloc {
+  [_player release]; _player = nil;
+
+  [super dealloc];
 }
 
 #pragma mark -
 #pragma mark View lifecycle
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
   
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
   [_peerPicker show];
 }
+
+/*
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+*/
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+
+  [_player play];
+}
+
+/*
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+*/
+/*
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+}
+*/
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
 
 #pragma mark -
 #pragma mark GKPeerPickerController Delegate
@@ -72,8 +112,6 @@
   
 }
 
-
-
 #pragma mark -
 #pragma mark Session Methods
 
@@ -92,18 +130,13 @@
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+
     // Relinquish ownership any cached data, images, etc. that aren't in use.
 }
 
 - (void)viewDidUnload {
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 

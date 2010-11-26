@@ -8,11 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <GameKit/GameKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface TapViewController : UIViewController <GKSessionDelegate, GKPeerPickerControllerDelegate> {
+  // Connection
   GKSession *_session;
   GKPeerPickerController *_peerPicker;
   NSString *_peer;
+
+  // Audio
+  AVAudioPlayer* _player;
 }
 
 @property (nonatomic, retain) GKSession *session;
