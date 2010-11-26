@@ -164,7 +164,7 @@
 
 - (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession:(GKSession *)session context:(void *)context {
   NSError *error;
-  id buttonPosition = [NSPropertyListSerialization dataWithPropertyList:data format:NSPropertyListImmutable options:0 error:&error];
+  id buttonPosition = [NSPropertyListSerialization dataWithPropertyList:data format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
 
   if ([buttonPosition isKindOfClass:[NSArray class]]) {
     NSInteger row = [[(NSArray *)buttonPosition objectAtIndex:0] intValue];
