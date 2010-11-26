@@ -11,6 +11,9 @@
 
 @implementation TapViewController
 
+@synthesize session     = _session;
+@synthesize peerPicker  = _peerPicker;
+@synthesize peer        = _peer;
 
 #pragma mark -
 #pragma mark Initialization
@@ -27,97 +30,61 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-  session = [[GKSession alloc] initWithSessionID:@"cmc" displayName:@"Collabarative Music Creation" sessionMode:GKSessionModePeer];
-  peerPicker = [[GKPeerPickerController alloc] init];
-  [peerPicker show];
+  
+  _peerPicker = [[GKPeerPickerController alloc] init];
+  _peerPicker.delegate = self;
+  [_peerPicker show];
 }
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+#pragma mark -
+#pragma mark GKPeerPickerController Delegate
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)peerPickerControllerDidCancel:(GKPeerPickerController *)picker {
+  // Hide old picker
+  [picker dismiss];
+  picker.delegate = nil;
+  [picker autorelease];
+  
+  // Show new picker
+  _peerPicker = [[GKPeerPickerController alloc] init];
+  _peerPicker.delegate = self;
+  [_peerPicker show];
 }
-*/
 
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
+- (GKSession *)peerPickerController:(GKPeerPickerController *)picker sessionForConnectionType:(GKPeerPickerConnectionType)type {
+  // Create a new session
+  _session = [[GKSession alloc] initWithSessionID:@"cmc" displayName:@"Collabarative Music Creation" sessionMode:GKSessionModePeer];
+  return [_session autorelease];
 }
-*/
 
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+- (void)peerPickerController:(GKPeerPickerController *)picker didConnectPeer:(NSString *)peerID toSession:(GKSession *)session {
+  
+  // Set up the session
+  self.peer = peerID;
+  self.session = session;
+  self.session.delegate = self;
+  [self.session setDataReceiveHandler:self withContext:NULL];
+  
+  // Hide the picker
+  [picker dismiss];
+  picker.delegate = nil;
+  [picker autorelease];
+  
 }
-*/
 
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 #pragma mark -
-#pragma mark Table view delegate
+#pragma mark Session Methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-    */
+- (void)invalidateSession:(GKSession *)session {
+  if (session) {
+    [session disconnectFromAllPeers];
+    session.available = NO;
+    [session setDataReceiveHandler:nil withContext:NULL];
+    session.delegate = nil;
+  }
 }
-
 
 #pragma mark -
 #pragma mark Memory management
