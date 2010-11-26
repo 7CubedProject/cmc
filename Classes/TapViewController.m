@@ -60,8 +60,8 @@
   for (NSInteger iRow = 0; iRow < numberOfRows; ++iRow) {
     for (NSInteger iCol = 0; iCol < numberOfColumns; ++iCol) {
       UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-      CGRect frame = CGRectMake(topLeft.x + iRow * buttonSizeInPixels,
-                                topLeft.y + iCol * buttonSizeInPixels,
+      CGRect frame = CGRectMake(topLeft.x + iCol * buttonSizeInPixels,
+                                topLeft.y + iRow * buttonSizeInPixels,
                                 buttonSizeInPixels, buttonSizeInPixels);
       button.frame = frame;
       [self.view addSubview:button];
