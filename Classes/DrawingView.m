@@ -86,7 +86,11 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
     CGPoint currentPoint = [[info objectForKey:@"currentPoint"] CGPointValue];
     CGPoint previousPoint = [[info objectForKey:@"previousPoint"] CGPointValue];
 
-    [self drawCircleAtPoint:currentPoint];
+    for (CGFloat t = 0; t < 1; t += 0.1) {
+      CGPoint interpPoint = CGPointMake(previousPoint.x + (currentPoint.x - previousPoint.x) * t,
+                                        previousPoint.y + (currentPoint.y - previousPoint.y) * t);
+      [self drawCircleAtPoint:interpPoint];
+    }
   }
 
   CFRelease(_image);
