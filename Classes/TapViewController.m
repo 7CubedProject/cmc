@@ -22,6 +22,8 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    _myColor = [UIColor redColor];
+    _peerColor = [UIColor blueColor];
   }
   return self;
 }
@@ -44,8 +46,6 @@
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
   [_peerPicker show];
-  DrawingView* view = (DrawingView*)self.view;
-  [view drawPoints:nil];
 }
 
 - (void)viewDidUnload {
@@ -122,21 +122,21 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesBegan:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
-  [(DrawingView *)self.view drawPoints:touchArray];
+  [(DrawingView *)self.view drawPoints:touchArray color:_myColor];
   [self sendTouches:touchArray];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesMoved:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
-  [(DrawingView *)self.view drawPoints:touchArray];
+  [(DrawingView *)self.view drawPoints:touchArray color:_myColor];
   [self sendTouches:touchArray];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
-  [(DrawingView *)self.view drawPoints:touchArray];
+  [(DrawingView *)self.view drawPoints:touchArray color:_myColor];
   [self sendTouches:touchArray];
 }
 
@@ -183,7 +183,7 @@
 
   if ([touchArray isKindOfClass:[NSArray class]]) {
     NSLog(@"Recieved Array");
-    [(DrawingView *)self.view drawPoints:touchArray];
+    [(DrawingView *)self.view drawPoints:touchArray color:_peerColor];
   } else {
     NSLog(@"Recieved something else");
   }

@@ -18,11 +18,15 @@
   GKSession *_session;
   GKPeerPickerController *_peerPicker;
   NSString *_peer;
+  UIColor* _myColor;
+  UIColor* _peerColor;
 }
 
 @property (nonatomic, retain) GKSession *session;
 @property (nonatomic, retain) GKPeerPickerController *peerPicker;
 @property (nonatomic, retain) NSString *peer;
+
+- (void)sendTouches:(NSArray *)touches;
 
 // Touch Management Encoding Views
 - (NSArray *)encodeTouches:(NSSet *)touches;
