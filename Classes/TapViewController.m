@@ -178,7 +178,7 @@
     button.alpha = 1;
 
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2f];
+    [UIView setAnimationDuration:1];
     button.alpha = 0.3;
     [UIView commitAnimations];
   } else {
