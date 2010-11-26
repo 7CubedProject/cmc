@@ -40,10 +40,41 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
   [_peerPicker show];
+
+  static const CGFloat buttonSizeInPixels = 50;
+
+  CGSize screenSize = [UIScreen mainScreen].bounds.size;
+  NSInteger numberOfColumns = floor(screenSize.width / buttonSizeInPixels);
+  NSInteger numberOfRows = floor(screenSize.height / buttonSizeInPixels);
+
+  CGPoint topLeft = CGPointMake(floor((screenSize.width - numberOfColumns * buttonSizeInPixels) / 2),
+                                floor((screenSize.height - numberOfRows * buttonSizeInPixels) / 2));
+
+  NSMutableArray* buttons = [[NSMutableArray alloc]
+                             initWithCapacity:numberOfRows * numberOfColumns];
+
+  for (NSInteger iRow = 0; iRow < numberOfRows; ++iRow) {
+    for (NSInteger iCol = 0; iCol < numberOfColumns; ++iCol) {
+      UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+      CGRect frame = CGRectMake(topLeft.x + iRow * buttonSizeInPixels,
+                                topLeft.y + iCol * buttonSizeInPixels,
+                                buttonSizeInPixels, buttonSizeInPixels);
+      button.frame = frame;
+      [self.view addSubview:button];
+      [buttons addObject:button];
+    }
+  }
+
+  _buttons = [[NSArray arrayWithArray:buttons] retain];
+}
+
+- (void)viewDidUnload {
+  [_buttons release];
+  _buttons = nil;
 }
 
 /*
@@ -84,7 +115,7 @@
   [picker dismiss];
   picker.delegate = nil;
   [picker autorelease];
-  
+
   // Show new picker
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
@@ -98,18 +129,18 @@
 }
 
 - (void)peerPickerController:(GKPeerPickerController *)picker didConnectPeer:(NSString *)peerID toSession:(GKSession *)session {
-  
+
   // Set up the session
   self.peer = peerID;
   self.session = session;
   self.session.delegate = self;
   [self.session setDataReceiveHandler:self withContext:NULL];
-  
+
   // Hide the picker
   [picker dismiss];
   picker.delegate = nil;
   [picker autorelease];
-  
+
 }
 
 #pragma mark -
@@ -132,11 +163,6 @@
     [super didReceiveMemoryWarning];
 
     // Relinquish ownership any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
 }
 
 

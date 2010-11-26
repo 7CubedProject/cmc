@@ -19,6 +19,8 @@
 
   // Audio
   AVAudioPlayer* _player;
+
+  NSArray* _buttons;
 }
 
 @property (nonatomic, retain) GKSession *session;
