@@ -21,25 +21,13 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 
-    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:
-                      [[NSBundle mainBundle] pathForResource:@"beep_2" ofType:@"aifc"]];
-
-    _soundData = [NSData dataWithContentsOfURL:fileURL];
-    _audioFactory = [[AudioFactory alloc] initWithData:_soundData];
   }
   return self;
 }
 
 - (void)dealloc {
-  [_audioFactory release]; _audioFactory = nil;
-  [_soundData release]; _soundData = nil;
-
   [super dealloc];
 }
-
-#define PACK_COORD(row, col)    ((((row) & 0xFFFF) << 16) | ((col) & 0xFFFF))
-#define UNPACK_COL(packed)      ((packed) & 0xFFFF)
-#define UNPACK_ROW(packed)      (((packed) >> 16) & 0xFFFF)
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -50,42 +38,9 @@
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
   [_peerPicker show];
-
-  static const CGFloat buttonSizeInPixels = 50;
-
-  CGSize screenSize = [UIScreen mainScreen].bounds.size;
-  _numberOfColumns = floor(screenSize.width / buttonSizeInPixels);
-  _numberOfRows = floor(screenSize.height / buttonSizeInPixels);
-
-  CGPoint topLeft = CGPointMake(floor((screenSize.width - _numberOfColumns * buttonSizeInPixels) / 2),
-                                floor((screenSize.height - _numberOfRows * buttonSizeInPixels) / 2));
-
-  NSMutableArray* buttons = [[NSMutableArray alloc]
-                             initWithCapacity:_numberOfRows * _numberOfColumns];
-
-  for (NSInteger iRow = 0; iRow < _numberOfRows; ++iRow) {
-    for (NSInteger iCol = 0; iCol < _numberOfColumns; ++iCol) {
-      UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-      CGRect frame = CGRectMake(topLeft.x + iCol * buttonSizeInPixels,
-                                topLeft.y + iRow * buttonSizeInPixels,
-                                buttonSizeInPixels, buttonSizeInPixels);
-      [button addTarget: self
-                 action: @selector(tapButton:)
-       forControlEvents: UIControlEventTouchUpInside];
-      button.tag = PACK_COORD(iRow, iCol);
-      button.alpha = 0.3;
-      button.frame = frame;
-      [self.view addSubview:button];
-      [buttons addObject:button];
-    }
-  }
-
-  _buttons = [[NSArray arrayWithArray:buttons] retain];
 }
 
 - (void)viewDidUnload {
-  [_buttons release];
-  _buttons = nil;
 }
 
 /*
@@ -100,16 +55,9 @@
 
 // DO IT!
 - (void)tapButton:(UIButton*)button {
-  NSInteger row = UNPACK_ROW(button.tag);
-  NSInteger col = UNPACK_COL(button.tag);
-
-  [self sendButtonTap:row column:col];
+  //[self sendButtonTap:row column:col];
 
   [self playMusic];
-}
-
-- (void)playMusic {
-  [_audioFactory play];
 }
 
 #pragma mark -
@@ -159,6 +107,23 @@
   }
 }
 
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesCancelled:touches withEvent:event];
+}
+
 #pragma mark -
 #pragma mark GKSession Data Methods
 
@@ -171,16 +136,8 @@
     NSInteger row = [[(NSArray *)buttonPosition objectAtIndex:0] intValue];
     NSInteger column = [[(NSArray *)buttonPosition objectAtIndex:1] intValue];
 
-    UIButton *button = [_buttons objectAtIndex:row * _numberOfColumns + column];
-
     [self playMusic];
 
-    button.alpha = 1;
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:1];
-    button.alpha = 0.3;
-    [UIView commitAnimations];
   } else {
     NSLog(@"Data Recieved But Not Array");
   }

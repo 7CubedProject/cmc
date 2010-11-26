@@ -18,14 +18,6 @@
   GKSession *_session;
   GKPeerPickerController *_peerPicker;
   NSString *_peer;
-
-  NSData* _soundData;
-
-  NSInteger _numberOfColumns;
-  NSInteger _numberOfRows;
-  AudioFactory* _audioFactory;
-
-  NSArray* _buttons;
 }
 
 @property (nonatomic, retain) GKSession *session;
