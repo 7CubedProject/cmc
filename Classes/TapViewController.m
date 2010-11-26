@@ -122,18 +122,21 @@
   [super touchesBegan:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
   [(DrawingView *)self.view drawPoints:touchArray];
+  [self sendTouches:touchArray];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesMoved:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
   [(DrawingView *)self.view drawPoints:touchArray];
+  [self sendTouches:touchArray];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
   [(DrawingView *)self.view drawPoints:touchArray];
+  [self sendTouches:touchArray];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -149,7 +152,6 @@
   NSArray *touchArray = [touches allObjects];
   NSMutableArray *pointArray = [[NSMutableArray alloc] initWithCapacity:[touchArray count]];
   for (UITouch *touch in touchArray) {
-    NSLog(@"Encoding touch");
     NSDictionary *pointData = [[NSDictionary alloc] initWithObjectsAndKeys:
                                [NSValue valueWithCGPoint:[touch locationInView:self.view]],
                                @"currentPoint",
@@ -159,7 +161,7 @@
     [pointArray addObject:pointData];
     [pointData release];
   }
-  return pointArray;
+  return [pointArray autorelease];
 }
 
 - (void)sendTouches:(NSArray *)touches {
