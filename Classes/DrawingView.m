@@ -54,6 +54,11 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
   if (self = [super initWithFrame:frame]) {
     _bmp = MyCreateBitmapContext(frame.size.width, frame.size.height);
 
+    _brushColor = [UIColor colorWithRed:(double)(rand()%100+100)/255.0
+                                  green:(double)(rand()%100+100)/255.0
+                                   blue:(double)(rand()%100+100)/255.0
+                                  alpha:1];
+
     _image = CGBitmapContextCreateImage(_bmp);
   }
 
@@ -74,7 +79,9 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 
 - (void)drawCircleAtPoint:(CGPoint)point {
   CGFloat circleRadius = 20;
-  CGContextSetRGBFillColor (_bmp, 1, 0, 0, 1);
+  CGColorRef color = [_brushColor CGColor];
+  const CGFloat* colorPts = CGColorGetComponents(color);
+  CGContextSetRGBFillColor (_bmp,  colorPts[0], colorPts[1], colorPts[2], 1);
   CGContextFillEllipseInRect (_bmp, CGRectMake (point.x - circleRadius / 2,
                                                 point.y - circleRadius / 2,
                                                 circleRadius * 2, circleRadius * 2));

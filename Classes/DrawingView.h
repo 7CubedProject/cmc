@@ -11,6 +11,7 @@
 
 @interface DrawingView : UIView {
 @private
+  UIColor* _brushColor;
   CGContextRef _bmp;
   CGImageRef _image;
 }

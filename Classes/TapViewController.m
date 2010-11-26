@@ -35,6 +35,7 @@
 
 - (void)loadView {
   self.view = [[[DrawingView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+  self.view.multipleTouchEnabled = YES;
 }
 
 - (void)viewDidLoad {
@@ -148,7 +149,7 @@
 
 
 - (NSArray *)encodeTouches:(NSSet *)touches {
-  // Encode the touches in an array 
+  // Encode the touches in an array
   NSArray *touchArray = [touches allObjects];
   NSMutableArray *pointArray = [[NSMutableArray alloc] initWithCapacity:[touchArray count]];
   for (UITouch *touch in touchArray) {
@@ -166,10 +167,10 @@
 
 - (void)sendTouches:(NSArray *)touches {
   NSData *touchData = [NSKeyedArchiver archivedDataWithRootObject:touches];
-  
+
   NSError *error = nil;
   [self.session sendDataToAllPeers:touchData withDataMode:GKSendDataReliable error:&error];
-  
+
   if (error) {
     NSLog(@"SAD FACE ON SENDING DATA");
     NSLog(@"Error: %@", error);
@@ -182,7 +183,7 @@
 
   if ([touchArray isKindOfClass:[NSArray class]]) {
     NSLog(@"Recieved Array");
-    [(DrawingView *)self.view drawPoints:touchArray]; 
+    [(DrawingView *)self.view drawPoints:touchArray];
   } else {
     NSLog(@"Recieved something else");
   }
