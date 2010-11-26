@@ -30,9 +30,12 @@
 
 // Touch Management Encoding Views
 - (NSArray *)encodeTouches:(NSSet *)touches;
+
 // Session Methods
 - (void)invalidateSession:(GKSession *)session;
 - (void)sendButtonTap:(NSInteger)row column:(NSInteger)column;
+- (void)sendTouches:(NSArray *)touches;
+- (void)sendEraseAll;
 
 // GKPeerPickerController Delegate Methods
 - (void)peerPickerControllerDidCancel:(GKPeerPickerController *)picker;

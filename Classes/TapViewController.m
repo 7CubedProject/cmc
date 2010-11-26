@@ -38,6 +38,7 @@
 
 - (void)didShake {
   DrawingView* drawingView = (DrawingView*)self.view;
+  [self sendEraseAll];
   [drawingView eraseAll];
 }
 
@@ -186,12 +187,25 @@
   }
 }
 
+- (void)sendEraseAll {
+  NSData *erase = [NSKeyedArchiver archivedDataWithRootObject:@"Erase"];
+  NSError *error = nil;
+  [self.session sendDataToAllPeers:erase withDataMode:GKSendDataReliable error:&error];
+  
+  if (error) {
+    NSLog(@"SAD FACE ON SENDING ERASE DATA");
+    NSLog(@"Error: %@", error);
+  }
+}
+
 - (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession:(GKSession *)session context:(void *)context {
 
-  id touchArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+  id unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
-  if ([touchArray isKindOfClass:[NSArray class]]) {
-    [(DrawingView *)self.view drawPoints:touchArray color:_peerColor];
+  if ([unarchivedData isKindOfClass:[NSArray class]]) {
+    [(DrawingView *)self.view drawPoints:unarchivedData color:_peerColor];
+  } else if ([unarchivedData isKindOfClass:[NSString class]]) {
+    [(DrawingView *)self.view eraseAll];
   } else {
     NSLog(@"Recieved something else");
   }
