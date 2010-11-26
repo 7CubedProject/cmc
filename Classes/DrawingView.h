@@ -11,11 +11,10 @@
 
 @interface DrawingView : UIView {
 @private
-  UIColor* _brushColor;
   CGContextRef _bmp;
   CGImageRef _image;
 }
 
-- (void)drawPoints:(NSArray*)points; // [{lastPoint:NSValue(CGPoint), thisPoint:NSValue(CGPoint)}, ...]
+- (void)drawPoints:(NSArray*)points color:(UIColor*)color; // [{lastPoint:NSValue(CGPoint), thisPoint:NSValue(CGPoint)}, ...]
 
 @end

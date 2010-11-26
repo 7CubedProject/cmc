@@ -49,15 +49,9 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 @implementation DrawingView
 
 
-
 - (id)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     _bmp = MyCreateBitmapContext(frame.size.width, frame.size.height);
-
-    _brushColor = [[UIColor colorWithRed:(double)(rand()%100+100)/255.0
-                                   green:(double)(rand()%100+100)/255.0
-                                    blue:(double)(rand()%100+100)/255.0
-                                   alpha:1] retain];
 
     _image = CGBitmapContextCreateImage(_bmp);
   }
@@ -77,10 +71,10 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 }
 
 
-- (void)drawCircleAtPoint:(CGPoint)point {
+- (void)drawCircleAtPoint:(CGPoint)point color:(UIColor*)color {
   CGFloat circleRadius = 20;
-  CGColorRef color = [_brushColor CGColor];
-  const CGFloat* colorPts = CGColorGetComponents(color);
+  CGColorRef colorRef = [color CGColor];
+  const CGFloat* colorPts = CGColorGetComponents(colorRef);
   CGContextSetRGBFillColor (_bmp,  colorPts[0], colorPts[1], colorPts[2], 1);
   CGContextFillEllipseInRect (_bmp, CGRectMake (point.x - circleRadius / 2,
                                                 point.y - circleRadius / 2,
@@ -88,7 +82,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 }
 
 
-- (void)drawPoints:(NSArray*)points {
+- (void)drawPoints:(NSArray*)points color:(UIColor*)color {
   for (NSDictionary* info in points) {
     CGPoint currentPoint = [[info objectForKey:@"currentPoint"] CGPointValue];
     CGPoint previousPoint = [[info objectForKey:@"previousPoint"] CGPointValue];
@@ -96,7 +90,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
     for (CGFloat t = 0; t < 1; t += 0.1) {
       CGPoint interpPoint = CGPointMake(previousPoint.x + (currentPoint.x - previousPoint.x) * t,
                                         previousPoint.y + (currentPoint.y - previousPoint.y) * t);
-      [self drawCircleAtPoint:interpPoint];
+      [self drawCircleAtPoint:interpPoint color:color];
     }
   }
 
