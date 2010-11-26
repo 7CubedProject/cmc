@@ -23,9 +23,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 
   colorSpace = CGColorSpaceCreateDeviceRGB();// 2
   bitmapData = malloc( bitmapByteCount );// 3
-  for (NSInteger ix = 0; ix < bitmapByteCount; ++ix) {
-    ((char*)bitmapData)[rand()%bitmapByteCount] = rand()%256;
-  }
+  memset(bitmapData, 0, bitmapByteCount);
   if (bitmapData == NULL) {
     fprintf (stderr, "Memory not allocated!");
     return NULL;
