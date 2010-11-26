@@ -81,6 +81,16 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
                                                 circleRadius * 2, circleRadius * 2));
 }
 
+- (void)eraseAll {
+  CGContextSetRGBFillColor (_bmp,  0, 0, 0, 1);
+  CGContextFillRect (_bmp, CGRectMake (0, 0, self.bounds.size.width, self.bounds.size.height ));
+
+  CFRelease(_image);
+  _image = CGBitmapContextCreateImage (_bmp);// 5
+
+  [self setNeedsDisplay];
+}
+
 
 - (void)drawPoints:(NSArray*)points color:(UIColor*)color {
   for (NSDictionary* info in points) {

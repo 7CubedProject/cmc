@@ -24,12 +24,21 @@
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _myColor = [UIColor redColor];
     _peerColor = [UIColor blueColor];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didShake)
+                                                 name:@"shake" object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
+}
+
+- (void)didShake {
+  DrawingView* drawingView = (DrawingView*)self.view;
+  [drawingView eraseAll];
 }
 
 #pragma mark -

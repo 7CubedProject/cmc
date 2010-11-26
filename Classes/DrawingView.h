@@ -15,6 +15,7 @@
   CGImageRef _image;
 }
 
+- (void)eraseAll;
 - (void)drawPoints:(NSArray*)points color:(UIColor*)color; // [{lastPoint:NSValue(CGPoint), thisPoint:NSValue(CGPoint)}, ...]
 
 @end
