@@ -73,6 +73,7 @@
                  action: @selector(tapButton:)
        forControlEvents: UIControlEventTouchUpInside];
       button.tag = PACK_COORD(iRow, iCol);
+      button.alpha = 0.3;
       button.frame = frame;
       [self.view addSubview:button];
       [buttons addObject:button];
@@ -172,13 +173,13 @@
 
     UIButton *button = [_buttons objectAtIndex:row * _numberOfColumns + column];
 
-    [button setSelected:YES];
-
     [self playMusic];
+
+    button.alpha = 1;
 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2f];
-    [button setSelected:NO];
+    button.alpha = 0.3;
     [UIView commitAnimations];
   } else {
     NSLog(@"Data Recieved But Not Array");
