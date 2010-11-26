@@ -43,6 +43,8 @@
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
   [_peerPicker show];
+  DrawingView* view = (DrawingView*)self.view;
+  [view drawPoints:nil];
 }
 
 - (void)viewDidUnload {
@@ -66,8 +68,6 @@
 }
 
 - (void)playMusic {
-  DrawingView* view = (DrawingView*)self.view;
-  [view drawPoints:nil];
 }
 
 #pragma mark -
