@@ -8,6 +8,8 @@
 
 #import "TapViewController.h"
 
+#import "DrawingView.h"
+
 
 @implementation TapViewController
 
@@ -20,7 +22,6 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-
   }
   return self;
 }
@@ -31,6 +32,10 @@
 
 #pragma mark -
 #pragma mark View lifecycle
+
+- (void)loadView {
+  self.view = [[[DrawingView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -58,6 +63,11 @@
   //[self sendButtonTap:row column:col];
 
   [self playMusic];
+}
+
+- (void)playMusic {
+  DrawingView* view = (DrawingView*)self.view;
+  [view drawPoints:nil];
 }
 
 #pragma mark -
@@ -111,16 +121,19 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesBegan:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
+  [(DrawingView *)self.view drawPoints:touchArray];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesMoved:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
+  [(DrawingView *)self.view drawPoints:touchArray];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
   NSArray *touchArray = [self encodeTouches:touches];
+  [(DrawingView *)self.view drawPoints:touchArray];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -129,6 +142,7 @@
 
 #pragma mark -
 #pragma mark GKSession Data Methods
+
 
 - (NSArray *)encodeTouches:(NSSet *)touches {
   // Encode the touches in an array 
@@ -144,7 +158,7 @@
     [pointArray addObject:pointData];
     [pointData release];
   }
-  return [pointArray autorelease];
+  return pointArray;
 }
 
 - (void)sendTouches:(NSArray *)touches {

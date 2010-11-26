@@ -17,6 +17,7 @@
 		6686C66C12A030A30008D415 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6686C66B12A030A30008D415 /* AVFoundation.framework */; };
 		6686C67012A030B60008D415 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6686C66F12A030B60008D415 /* AudioToolbox.framework */; };
 		6686C6ED12A03DB90008D415 /* AudioFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6686C6EC12A03DB90008D415 /* AudioFactory.m */; };
+		6686C78D12A04B170008D415 /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6686C78C12A04B170008D415 /* DrawingView.m */; };
 		FD9BD0B412A02B3700A28A33 /* TapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9BD0B312A02B3700A28A33 /* TapViewController.m */; };
 		FD9BD11912A02E0C00A28A33 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD9BD11812A02E0C00A28A33 /* GameKit.framework */; };
 /* End PBXBuildFile section */
@@ -36,6 +37,8 @@
 		6686C66F12A030B60008D415 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6686C6EB12A03DB90008D415 /* AudioFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioFactory.h; sourceTree = "<group>"; };
 		6686C6EC12A03DB90008D415 /* AudioFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioFactory.m; sourceTree = "<group>"; };
+		6686C78B12A04B170008D415 /* DrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
+		6686C78C12A04B170008D415 /* DrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* cmc-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "cmc-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		FD9BD0B212A02B3700A28A33 /* TapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapViewController.h; sourceTree = "<group>"; };
 		FD9BD0B312A02B3700A28A33 /* TapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapViewController.m; sourceTree = "<group>"; };
@@ -68,6 +71,8 @@
 				FD9BD0B312A02B3700A28A33 /* TapViewController.m */,
 				6686C6EB12A03DB90008D415 /* AudioFactory.h */,
 				6686C6EC12A03DB90008D415 /* AudioFactory.m */,
+				6686C78B12A04B170008D415 /* DrawingView.h */,
+				6686C78C12A04B170008D415 /* DrawingView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				1D3623260D0F684500981E51 /* cmcAppDelegate.m in Sources */,
 				FD9BD0B412A02B3700A28A33 /* TapViewController.m in Sources */,
 				6686C6ED12A03DB90008D415 /* AudioFactory.m in Sources */,
+				6686C78D12A04B170008D415 /* DrawingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

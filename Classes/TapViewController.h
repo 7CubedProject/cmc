@@ -24,6 +24,8 @@
 @property (nonatomic, retain) GKPeerPickerController *peerPicker;
 @property (nonatomic, retain) NSString *peer;
 
+// Touch Management Encoding Views
+
 // Session Methods
 - (void)invalidateSession:(GKSession *)session;
 - (void)sendButtonTap:(NSInteger)row column:(NSInteger)column;
