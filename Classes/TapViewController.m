@@ -191,7 +191,7 @@
   NSArray *array = [NSArray arrayWithObjects:[NSNumber numberWithInt:row],[NSNumber numberWithInt:column],nil];
   NSData *buttonData = [NSKeyedArchiver archivedDataWithRootObject:array];
 
-  NSError *error;
+  NSError *error = nil;
   [self.session sendDataToAllPeers:buttonData withDataMode:GKSendDataReliable error:&error];
 
   if (error) {
