@@ -97,7 +97,13 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
     CGPoint currentPoint = [[info objectForKey:@"currentPoint"] CGPointValue];
     CGPoint previousPoint = [[info objectForKey:@"previousPoint"] CGPointValue];
 
-    for (CGFloat t = 0; t < 1; t += 0.1) {
+    CGFloat dx = (currentPoint.x - previousPoint.x);
+    CGFloat dy = (currentPoint.y - previousPoint.y);
+    CGFloat distance = sqrtf(dx*dx + dy*dy);
+
+    NSInteger numberOfSteps = ceil(distance / 3);
+
+    for (CGFloat t = 0; t < 1; t += 1 / (CGFloat)numberOfSteps) {
       CGPoint interpPoint = CGPointMake(previousPoint.x + (currentPoint.x - previousPoint.x) * t,
                                         previousPoint.y + (currentPoint.y - previousPoint.y) * t);
       [self drawCircleAtPoint:interpPoint color:color];
