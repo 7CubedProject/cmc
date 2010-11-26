@@ -23,9 +23,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 
   colorSpace = CGColorSpaceCreateDeviceRGB();// 2
   bitmapData = malloc( bitmapByteCount );// 3
-  for (NSInteger ix = 0; ix < bitmapByteCount; ++ix) {
-    ((char*)bitmapData)[rand()%bitmapByteCount] = rand()%256;
-  }
+  memset(bitmapData, 0, bitmapByteCount);
   if (bitmapData == NULL) {
     fprintf (stderr, "Memory not allocated!");
     return NULL;
@@ -74,12 +72,22 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 }
 
 
-- (void)drawPoints:(NSArray*)points {
-  CGRect myBoundingBox;// 1
-  myBoundingBox = CGRectMake (0, 0, self.bounds.size.width, self.bounds.size.height);// 2
-
+- (void)drawCircleAtPoint:(CGPoint)point {
+  CGFloat circleRadius = 20;
   CGContextSetRGBFillColor (_bmp, 1, 0, 0, 1);
-  CGContextFillRect (_bmp, CGRectMake (0, 0, 200, 100 ));
+  CGContextFillEllipseInRect (_bmp, CGRectMake (point.x - circleRadius / 2,
+                                                point.y - circleRadius / 2,
+                                                circleRadius * 2, circleRadius * 2));
+}
+
+
+- (void)drawPoints:(NSArray*)points {
+  for (NSDictionary* info in points) {
+    CGPoint currentPoint = [[info objectForKey:@"currentPoint"] CGPointValue];
+    CGPoint previousPoint = [[info objectForKey:@"previousPoint"] CGPointValue];
+
+    [self drawCircleAtPoint:currentPoint];
+  }
 
   CFRelease(_image);
   _image = CGBitmapContextCreateImage (_bmp);// 5
