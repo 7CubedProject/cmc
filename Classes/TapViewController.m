@@ -35,6 +35,10 @@
   [super dealloc];
 }
 
+#define PACK_COORD(row, col)    ((((row) & 0xFFFF) << 16) | ((col) & 0xFFFF))
+#define UNPACK_COL(packed)      ((packed) & 0xFFFF)
+#define UNPACK_ROW(packed)      (((packed) >> 16) & 0xFFFF)
+
 #pragma mark -
 #pragma mark View lifecycle
 
@@ -63,6 +67,10 @@
       CGRect frame = CGRectMake(topLeft.x + iCol * buttonSizeInPixels,
                                 topLeft.y + iRow * buttonSizeInPixels,
                                 buttonSizeInPixels, buttonSizeInPixels);
+      [button addTarget: self
+                 action: @selector(tapButton:)
+       forControlEvents: UIControlEventTouchUpInside];
+      button.tag = PACK_COORD(iRow, iCol);
       button.frame = frame;
       [self.view addSubview:button];
       [buttons addObject:button];
@@ -85,27 +93,15 @@
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+}
+
+// DO IT!
+- (void)tapButton:(UIButton*)button {
+  NSInteger row = UNPACK_ROW(button.tag);
+  NSInteger col = UNPACK_COL(button.tag);
 
   [_player play];
 }
-
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 #pragma mark -
 #pragma mark GKPeerPickerController Delegate
@@ -114,12 +110,11 @@
   // Hide old picker
   [picker dismiss];
   picker.delegate = nil;
-  [picker autorelease];
-
+/*
   // Show new picker
   _peerPicker = [[GKPeerPickerController alloc] init];
   _peerPicker.delegate = self;
-  [_peerPicker show];
+  [_peerPicker show];*/
 }
 
 - (GKSession *)peerPickerController:(GKPeerPickerController *)picker sessionForConnectionType:(GKPeerPickerConnectionType)type {
