@@ -72,7 +72,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
 
 
 - (void)drawCircleAtPoint:(CGPoint)point color:(UIColor*)color {
-  CGFloat circleRadius = 20;
+  CGFloat circleRadius = 3;
   CGColorRef colorRef = [color CGColor];
   const CGFloat* colorPts = CGColorGetComponents(colorRef);
   CGContextSetRGBFillColor (_bmp,  colorPts[0], colorPts[1], colorPts[2], 1);
