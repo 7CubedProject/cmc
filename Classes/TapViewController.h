@@ -21,6 +21,8 @@
 
   NSData* _soundData;
 
+  NSInteger _numberOfColumns;
+  NSInteger _numberOfRows;
   AudioFactory* _audioFactory;
 
   NSArray* _buttons;

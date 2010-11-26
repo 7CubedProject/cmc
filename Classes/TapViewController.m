@@ -54,17 +54,17 @@
   static const CGFloat buttonSizeInPixels = 50;
 
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-  NSInteger numberOfColumns = floor(screenSize.width / buttonSizeInPixels);
-  NSInteger numberOfRows = floor(screenSize.height / buttonSizeInPixels);
+  _numberOfColumns = floor(screenSize.width / buttonSizeInPixels);
+  _numberOfRows = floor(screenSize.height / buttonSizeInPixels);
 
-  CGPoint topLeft = CGPointMake(floor((screenSize.width - numberOfColumns * buttonSizeInPixels) / 2),
-                                floor((screenSize.height - numberOfRows * buttonSizeInPixels) / 2));
+  CGPoint topLeft = CGPointMake(floor((screenSize.width - _numberOfColumns * buttonSizeInPixels) / 2),
+                                floor((screenSize.height - _numberOfRows * buttonSizeInPixels) / 2));
 
   NSMutableArray* buttons = [[NSMutableArray alloc]
-                             initWithCapacity:numberOfRows * numberOfColumns];
+                             initWithCapacity:_numberOfRows * _numberOfColumns];
 
-  for (NSInteger iRow = 0; iRow < numberOfRows; ++iRow) {
-    for (NSInteger iCol = 0; iCol < numberOfColumns; ++iCol) {
+  for (NSInteger iRow = 0; iRow < _numberOfRows; ++iRow) {
+    for (NSInteger iCol = 0; iCol < _numberOfColumns; ++iCol) {
       UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
       CGRect frame = CGRectMake(topLeft.x + iCol * buttonSizeInPixels,
                                 topLeft.y + iRow * buttonSizeInPixels,
@@ -170,10 +170,12 @@
     NSInteger row = [[(NSArray *)buttonPosition objectAtIndex:0] intValue];
     NSInteger column = [[(NSArray *)buttonPosition objectAtIndex:1] intValue];
 
-    UIButton *button = [[_buttons objectAtIndex:column] objectAtIndex:row];
+    UIButton *button = [_buttons objectAtIndex:row * _numberOfColumns + column];
 
     [button setSelected:YES];
+
     [self playMusic];
+
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2f];
     [button setSelected:NO];
