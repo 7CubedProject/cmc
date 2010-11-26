@@ -166,6 +166,7 @@
   id buttonPosition = [NSPropertyListSerialization dataWithPropertyList:data format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
 
   if ([buttonPosition isKindOfClass:[NSArray class]]) {
+    NSLog(@"I got array data");
     NSInteger row = [[(NSArray *)buttonPosition objectAtIndex:0] intValue];
     NSInteger column = [[(NSArray *)buttonPosition objectAtIndex:1] intValue];
 
@@ -177,7 +178,10 @@
     [UIView setAnimationDuration:0.2f];
     [button setSelected:NO];
     [UIView commitAnimations];
+  } else {
+    NSLog(@"Data Recieved But Not Array");
   }
+
 
   if (error) {
     NSLog(@"SAD FACE ON RECIEVING DATA");
@@ -211,4 +215,3 @@
 
 
 @end
-
