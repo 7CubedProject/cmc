@@ -110,43 +110,63 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesBegan:touches withEvent:event];
+  NSArray *touchArray = [self encodeTouches:touches];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesMoved:touches withEvent:event];
+  NSArray *touchArray = [self encodeTouches:touches];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
+  NSArray *touchArray = [self encodeTouches:touches];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  [super touchesCancelled:touches withEvent:event];
+  [self touchesEnded:touches withEvent:event];
 }
 
 #pragma mark -
 #pragma mark GKSession Data Methods
 
-- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession:(GKSession *)session context:(void *)context {
-  NSError *error;
-  id buttonPosition = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-
-  if ([buttonPosition isKindOfClass:[NSArray class]]) {
-    NSLog(@"I got array data");
-    NSInteger row = [[(NSArray *)buttonPosition objectAtIndex:0] intValue];
-    NSInteger column = [[(NSArray *)buttonPosition objectAtIndex:1] intValue];
-
-    [self playMusic];
-
-  } else {
-    NSLog(@"Data Recieved But Not Array");
+- (NSArray *)encodeTouches:(NSSet *)touches {
+  // Encode the touches in an array 
+  NSArray *touchArray = [touches allObjects];
+  NSMutableArray *pointArray = [[NSMutableArray alloc] initWithCapacity:[touchArray count]];
+  for (UITouch *touch in touchArray) {
+    NSDictionary *pointData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          @"currentPoint",
+                               [NSValue valueWithCGPoint:[touch locationInView:self.view]],
+                          @"previousPoint",
+                               [NSValue valueWithCGPoint:[touch previousLocationInView:self.view]],
+                          nil];
+    [pointArray addObject:pointData];
+    [pointData release];
   }
+  return [pointArray autorelease];
+}
 
-
+- (void)sendTouches:(NSArray *)touches {
+  NSData *touchData = [NSKeyedArchiver archivedDataWithRootObject:touches];
+  
+  NSError *error = nil;
+  [self.session sendDataToAllPeers:touchData withDataMode:GKSendDataReliable error:&error];
+  
   if (error) {
-    NSLog(@"SAD FACE ON RECIEVING DATA");
+    NSLog(@"SAD FACE ON SENDING DATA");
     NSLog(@"Error: %@", error);
   }
+}
+
+- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession:(GKSession *)session context:(void *)context {
+
+  id touchArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+  if ([touchArray isKindOfClass:[NSArray class]]) {
+    NSLog(@"Pass touches to be drawn");
+  }
+
 }
 
 - (void)sendButtonTap:(NSInteger)row column:(NSInteger)column {
