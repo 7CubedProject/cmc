@@ -8,6 +8,8 @@
 
 #import "TapViewController.h"
 
+#import "DrawingView.h"
+
 
 @implementation TapViewController
 
@@ -20,7 +22,6 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-
   }
   return self;
 }
@@ -31,6 +32,10 @@
 
 #pragma mark -
 #pragma mark View lifecycle
+
+- (void)loadView {
+  self.view = [[[DrawingView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -58,6 +63,11 @@
   //[self sendButtonTap:row column:col];
 
   [self playMusic];
+}
+
+- (void)playMusic {
+  DrawingView* view = (DrawingView*)self.view;
+  [view drawPoints:nil];
 }
 
 #pragma mark -
@@ -137,7 +147,6 @@
     NSInteger column = [[(NSArray *)buttonPosition objectAtIndex:1] intValue];
 
     [self playMusic];
-
   } else {
     NSLog(@"Data Recieved But Not Array");
   }
