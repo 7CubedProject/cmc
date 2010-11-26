@@ -25,14 +25,13 @@
                       [[NSBundle mainBundle] pathForResource:@"beep_2" ofType:@"aifc"]];
 
     _soundData = [NSData dataWithContentsOfURL:fileURL];
-
-    _player = [[AVAudioPlayer alloc] initWithData:_soundData error:nil];
+    _audioFactory = [[AudioFactory alloc] initWithData:_soundData];
   }
   return self;
 }
 
 - (void)dealloc {
-  [_player release]; _player = nil;
+  [_audioFactory release]; _audioFactory = nil;
   [_soundData release]; _soundData = nil;
 
   [super dealloc];
@@ -109,7 +108,7 @@
 }
 
 - (void)playMusic {
-  [_player play];
+  [_audioFactory play];
 }
 
 #pragma mark -

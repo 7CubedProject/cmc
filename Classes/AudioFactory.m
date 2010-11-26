@@ -48,8 +48,8 @@
     player.delegate = self;
   }
 
-  [player play];
   [_activePlayers addObject:player];
+  [player play];
 }
 
 

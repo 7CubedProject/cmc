@@ -11,6 +11,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "AudioFactory.h"
+
 @interface TapViewController : UIViewController <GKSessionDelegate, GKPeerPickerControllerDelegate> {
   // Connection
   GKSession *_session;
@@ -19,8 +21,7 @@
 
   NSData* _soundData;
 
-  // Audio
-  AVAudioPlayer* _player;
+  AudioFactory* _audioFactory;
 
   NSArray* _buttons;
 }
